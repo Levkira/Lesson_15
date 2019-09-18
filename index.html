@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Lesson 15</title>
+</head>
+<body>
+	<script>
+        class Hamburger {
+            constructor(size) {
+            this.size = size;
+            this.patty = Hamburger.BEEF;
+            this.topping = [];
+            this.doublePatty = false;
+            this.doubleTopping = false;
+            this.withFries = false;  
+            }
+
+            setPatty(meat) {
+                this.patty = meat;
+            }
+
+            setDoublePatty() {
+                this.doublePatty = true;
+            }
+
+            setDoubleTopping() {
+                this.doubleTopping = true;
+            }
+
+            addTopping(topping) {
+                if(! this.topping.includes(topping)) {
+                    this.topping.push(topping);
+                }
+            }
+
+            addFries() {
+                this.withFries = true;
+            }
+
+            get calculatePrice() {
+                let currentSize = this.size;
+                const priceOfSize = Hamburger.sizes.find(function(el) {
+                    if(currentSize === el.type) {
+                        return true;
+                    }
+                }).price;
+                let currentPatty = this.patty;
+                let priceOfPatty = Hamburger.patties.find(function(el) {
+                    if(currentPatty === el.type) {
+                        return true;
+                    }
+                }).price;
+                let priceOfTopping = this.topping.reduce(function(priceOfTopping, el) {
+                    let priceCurTopping = Hamburger.toppings.find(function(x) {
+                        if(x.type === el) {
+                            return true;
+                        }
+                    }).price;
+                    return priceOfTopping + priceCurTopping;
+                }, 0);
+                if(this.doublePatty) {
+                priceOfPatty = priceOfPatty * 2;
+                }
+                if(this.doubleTopping) {
+                priceOfTopping = priceOfTopping * 2;
+                }
+                let priceOfFries = 0;
+                if(this.withFries) {
+                    priceOfFries = Hamburger.fries.price;
+                }
+                return priceOfSize + priceOfPatty + priceOfTopping + priceOfFries;
+            }
+
+            get calculateCalories() {
+                let currentSize = this.size;
+                const calorieOfSize = Hamburger.sizes.find(function(el) {
+                    if(currentSize === el.type) {
+                        return true;
+                    }
+                }).calories;
+                let currentPatty = this.patty;
+                let calorieOfPatty = Hamburger.patties.find(function(el) {
+                    if(currentPatty === el.type) {
+                        return true;
+                    }
+                }).calories;
+                let calorieOfTopping = this.topping.reduce(function(calorieOfTopping, el) {
+                    let calorieCurTopping = Hamburger.toppings.find(function(x) {
+                        if(x.type === el) {
+                            return true;
+                        }
+                    }).calories;
+                    return calorieOfTopping + calorieCurTopping;
+                }, 0);
+                if(this.doublePatty) {
+                calorieOfPatty = calorieOfPatty * 2;
+                }
+                if(this.doubleTopping) {
+                calorieOfTopping = calorieOfTopping * 2;
+                }
+                let calorieOfFries = 0;
+                if(this.withFries) {
+                    calorieOfFries = Hamburger.fries.calories;
+                }
+                return calorieOfSize + calorieOfPatty + calorieOfTopping + calorieOfFries;
+            }
+        }
+        
+        Hamburger.SIZE_SMALL = 'small';
+        Hamburger.SIZE_BIG = 'big'; 
+        Hamburger.BEEF = 'beef';
+        Hamburger.CHICKEN = 'chicken'; 
+        Hamburger.TOPPING_MAYO = 'mayo';
+        Hamburger.TOPPING_SAUCE = 'sause';
+        Hamburger.TOPPING_KETCHUP = 'ketchup';
+        
+        
+        Hamburger.sizes = [
+            {
+                type: Hamburger.SIZE_SMALL,
+                price: 100,
+                calories: 150
+            },
+            {
+                type: Hamburger.SIZE_BIG,
+                price: 150,
+                calories: 180
+            }
+        ];
+        
+        Hamburger.patties = [
+            {
+                type: Hamburger.BEEF,
+                price: 300,
+                calories: 330 
+            },
+            {
+                type: Hamburger.CHICKEN,
+                price: 260,
+                calories: 290 
+            }
+        ];
+        
+        Hamburger.toppings = [
+            {
+                type: Hamburger.TOPPING_MAYO,
+                price: 300,
+                calories: 330  
+            },
+            {
+                type: Hamburger.TOPPING_SAUCE,
+                price: 300,
+                calories: 330  
+            },
+            {
+                type: Hamburger.TOPPING_KETCHUP,
+                price: 300,
+                calories: 330  
+            }
+        ];
+        
+        Hamburger.fries = {
+                price: 130,
+                calories: 150  
+            };
+        
+       
+        
+        // Hamburger.prototype.calculatePrice = function() {
+        //     return this.calculatePriceHam;
+        // }
+        
+        // Hamburger.prototype.calculateCalories = function() {
+        //     return this.calculateCaloriesHam();
+        // };
+        
+        class Cheeseburger extends Hamburger {
+        constructor(size) {
+            super();
+            this.size = size;
+            this.patty = Hamburger.CHICKEN;
+            this.cheese = Cheeseburger.CHEESE;
+            this.doubleCheese = false;
+            }
+
+            setDoubleCheese() {
+                this.doubleCheese = true;
+            }
+        }
+        Cheeseburger.CHEESE = 'cheese';
+        Cheeseburger.cheese = {
+                price: 150,
+                calories: 120  
+        };
+        
+        
+        const bigMac = new Hamburger(Hamburger.SIZE_BIG);
+
+        const macCheese = new Cheeseburger(Hamburger.SIZE_SMALL);
+        
+    
+	</script>
+</body>
+</html>
+
