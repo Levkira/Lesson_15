@@ -8,12 +8,12 @@
 	<script>
         class Hamburger {
             constructor(size) {
-            this.size = size;
-            this.patty = Hamburger.BEEF;
-            this.topping = [];
-            this.doublePatty = false;
-            this.doubleTopping = false;
-            this.withFries = false;  
+                this.size = size;
+                this.patty = Hamburger.BEEF;
+                this.topping = [];
+                this.doublePatty = false;
+                this.doubleTopping = false;
+                this.withFries = false;  
             }
 
             setPatty(meat) {
@@ -38,7 +38,7 @@
                 this.withFries = true;
             }
 
-            get calculatePrice() {
+            calculatePrice() {
                 let currentSize = this.size;
                 const priceOfSize = Hamburger.sizes.find(function(el) {
                     if(currentSize === el.type) {
@@ -72,7 +72,7 @@
                 return priceOfSize + priceOfPatty + priceOfTopping + priceOfFries;
             }
 
-            get calculateCalories() {
+            calculateCalories() {
                 let currentSize = this.size;
                 const calorieOfSize = Hamburger.sizes.find(function(el) {
                     if(currentSize === el.type) {
@@ -166,17 +166,39 @@
             };
         
         class Cheeseburger extends Hamburger {
-        constructor(size) {
-            super();
-            this.size = size;
-            this.patty = Hamburger.CHICKEN;
-            this.cheese = Cheeseburger.CHEESE;
-            this.doubleCheese = false;
+            constructor(size) {
+                super();
+                this.size = size;
+                this.patty = Hamburger.CHICKEN;
+                this.cheese = Cheeseburger.CHEESE;
+                this.doubleCheese = false;
             }
 
             setDoubleCheese() {
                 this.doubleCheese = true;
             }
+
+            calorieOfCheese() {
+                let calChesse = Cheeseburger.cheese.calories;
+                    if(this.doubleCheese) {
+                        calChesse = calChesse * 2;
+                    }
+                    return calChesse;
+                }
+           calculateCalories() {
+                return super.calculateCalories() + this.calorieOfCheese();
+           }
+
+           priceOfCheese() {
+               let priceCheese = Cheeseburger.cheese.price;
+               if(this.doubleCheese) {
+                    priceCheese = priceCheese * 2;
+               }
+               return priceCheese;
+           }
+           calculatePrice() {
+               return super.calculatePrice() + this.priceOfCheese();
+           }
         }
         Cheeseburger.CHEESE = 'cheese';
         Cheeseburger.cheese = {
@@ -185,9 +207,9 @@
         };
         
         
-        const bigMac = new Hamburger(Hamburger.SIZE_BIG);
+        let bigMac = new Hamburger(Hamburger.SIZE_BIG);
 
-        const macCheese = new Cheeseburger(Hamburger.SIZE_SMALL);
+        let macCheese = new Cheeseburger(Hamburger.SIZE_SMALL);
         
     
 	</script>
